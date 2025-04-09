@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Mock McDonald's website for demonstration purposes">
+  <title>McDonald's (Mock)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-yellow: #ffc72c;
+      --primary-red: #da291c;
+      --dark-red: #b11f14;
+      --dark-gray: #333;
+      --light-gray: #f8f8f8;
+      --text-color: #111;
+      --white: #fff;
+    }
+    
+    body {
+      margin: 0;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background-color: var(--white);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+    
+    header {
+      background-color: var(--primary-yellow);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .logo img {
+      height: 40px;
+    }
+    
+    .logo h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    
+    nav a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: bold;
+      transition: color 0.3s;
+      position: relative;
+    }
+    
+    nav a:hover {
+      color: var(--primary-red);
+    }
+    
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: var(--primary-red);
+      transition: width 0.3s;
+    }
+    
+    nav a:hover::after {
+      width: 100%;
+    }
+    
+    .mobile-menu {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    .hero {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('img1.jpeg');
+      background-size: cover;
+      background-position: center;
+      height: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      text-align: center;
+      padding: 0 1rem;
+    }
+    
+    .hero h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    }
+    
+    .hero p {
+      font-size: 1.5rem;
+      max-width: 800px;
+      margin-bottom: 2rem;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .section {
+      padding: 4rem 0;
+    }
+    
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 2rem;
+      color: var(--primary-red);
+    }
+    
+    .content-section {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+    
+    .content-section.reverse {
+      flex-direction: row-reverse;
+    }
+    
+    .content-image {
+      flex: 1;
+      min-width: 300px;
+    }
+    
+    .content-image img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .content-text {
+      flex: 1;
+      min-width: 300px;
+    }
+    
+    .content-text h2 {
+      color: var(--primary-red);
+      margin-top: 0;
+    }
+    
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .card {
+      background: var(--light-gray);
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+    
+    .card-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .card-content {
+      padding: 1.5rem;
+    }
+    
+    .card h3 {
+      margin-top: 0;
+      color: var(--primary-red);
+    }
+    
+    .price {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: var(--dark-gray);
+      margin: 0.5rem 0;
+    }
+    
+    .deals {
+      background-color: var(--primary-yellow);
+      padding: 4rem 0;
+    }
+    
+    .deal-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .deal-card i {
+      font-size: 3rem;
+      color: var(--primary-red);
+      margin-bottom: 1rem;
+    }
+    
+    .app-section {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+    
+    .app-content {
+      flex: 1;
+      min-width: 300px;
+    }
+    
+    .app-image {
+      flex: 1;
+      min-width: 300px;
+      text-align: center;
+    }
+    
+    .app-image img {
+      max-width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .app-badges {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .app-badges img {
+      height: 50px;
+    }
+    
+    .footer {
+      background-color: var(--dark-gray);
+      color: var(--white);
+      padding: 3rem 0;
+    }
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .footer h3 {
+      color: var(--primary-yellow);
+      margin-top: 0;
+    }
+    
+    .footer ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .footer li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .footer a {
+      color: var(--white);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer a:hover {
+      color: var(--primary-yellow);
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      font-size: 1.5rem;
+      margin-top: 1rem;
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    
+    button {
+      background-color: var(--primary-red);
+      color: var(--white);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-top: 1rem;
+      font-weight: bold;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    
+    button:hover {
+      background-color: var(--dark-red);
+      transform: scale(1.05);
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      border: 2px solid var(--white);
+      color: var(--white);
+    }
+    
+    .btn-outline:hover {
+      background-color: var(--white);
+      color: var(--primary-red);
+    }
+    
+    .disclaimer {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 1rem;
+    }
+    
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+      
+      .mobile-menu {
+        display: block;
+      }
+      
+      .hero h2 {
+        font-size: 2rem;
+      }
+      
+      .hero p {
+        font-size: 1.2rem;
+      }
+      
+      .app-section, .content-section {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/McDonald%27s_Golden_Arches.svg/1200px-McDonald%27s_Golden_Arches.svg.png" alt="McDonald's Logo">
+      <h1>McDonald's</h1>
+    </div>
+    
+    <nav>
+      <a href="#breakfast">Breakfast</a>
+      <a href="#burgers">Burgers</a>
+      <a href="#deals">Deals</a>
+      <a href="#app">Mobile App</a>
+      <a href="#about">About Us</a>
+    </nav>
+    
+    <div class="mobile-menu">
+      <i class="fas fa-bars"></i>
+    </div>
+  </header>
+
+  <div class="hero">
+    <h2>I'm Lovin' It</h2>
+    <p>Discover your new favorite meal with our limited-time offers</p>
+    <button class="btn-outline" onclick="showAlert()">Order Now</button>
+  </div>
+
+  <section id="breakfast" class="section">
+    <div class="container">
+      <div class="content-section">
+        <div class="content-image">
+          <img src="img2.jpeg" alt="McDonald's Breakfast">
+        </div>
+        <div class="content-text">
+          <h2>Breakfast Comes First</h2>
+          <p>You don't wake up dreaming of Fries, but you do dream of a McGriddles®, McMuffin®, Biscuit or Hash Browns. It's time to put lunch back in its place—order breakfast when you can in the app for pickup or McDelivery.*</p>
+          <button onclick="showAlert()">Order Breakfast</button>
+          <p class="disclaimer">*At participating McDonald's. Prices may be higher than at restaurants. Delivery/other fees may apply.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="burgers" class="section" style="background-color: #f8f8f8;">
+    <div class="container">
+      <div class="content-section reverse">
+        <div class="content-image">
+          <img src="img3.jpeg" alt="McDonald's Burgers">
+        </div>
+        <div class="content-text">
+          <h2>Burgers That Hit the Spot</h2>
+          <p>From our classic Big Mac® to our Quarter Pounder® with Cheese, our burgers are made with 100% pure beef and cooked to perfection. Try one today and taste the difference that quality ingredients make.</p>
+          <button onclick="showAlert()">View Burgers</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="content-section">
+        <div class="content-image">
+          <img src="img4.jpeg" alt="McDonald's McCafe">
+        </div>
+        <div class="content-text">
+          <h2>McCafé® Coffee</h2>
+          <p>Our McCafé® coffee is made with 100% Arabica beans and is freshly brewed every 30 minutes. Start your day right with our premium roast coffee, available in small, medium, and large sizes.</p>
+          <button onclick="showAlert()">Try McCafé®</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="deals" class="section deals">
+    <div class="container">
+      <h2 class="section-title">Exclusive Deals</h2>
+      
+      <div class="content-section">
+        <div class="content-image">
+          <img src="img5.jpeg" alt="McDonald's Deals">
+        </div>
+        <div class="content-text">
+          <h2>Get More For Less</h2>
+          <p>Enjoy our exclusive deals available only through the McDonald's app. From BOGO offers to free items with purchase, there's always a great deal waiting for you.</p>
+          <button onclick="showAlert()">View All Deals</button>
+          <p class="disclaimer">*Mobile order & pay at participating McDonald's. McD app download and registration required.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="app" class="section">
+    <div class="container">
+      <div class="content-section reverse">
+        <div class="content-image">
+          <img src="img6.jpeg" alt="McDonald's App">
+        </div>
+        <div class="content-text">
+          <h2>McDonald's App</h2>
+          <p>Get exclusive deals, mobile ordering, and earn rewards with every purchase. The McDonald's app makes your experience faster and more rewarding.</p>
+          <ul>
+            <li>Mobile order & pay ahead</li>
+            <li>Exclusive app deals</li>
+            <li>Earn points for free food</li>
+            <li>Find nearby locations</li>
+          </ul>
+          <button onclick="showAlert()">Download the App</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background-color: #f8f8f8;">
+    <div class="container">
+      <div class="content-section">
+        <div class="content-image">
+          <img src="img7.jpeg" alt="McDonald's Delivery">
+        </div>
+        <div class="content-text">
+          <h2>Delivery To Your Door</h2>
+          <p>Get your McDonald's favorites delivered right to your doorstep with McDelivery®. Available through our app or your favorite delivery service.</p>
+          <button onclick="showAlert()">Order Delivery</button>
+          <p class="disclaimer">*Delivery prices may be higher than at restaurants. Other fees may apply.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h3>Menu</h3>
+          <ul>
+            <li><a href="#">Burgers</a></li>
+            <li><a href="#">Chicken & Fish</a></li>
+            <li><a href="#">Breakfast</a></li>
+            <li><a href="#">Happy Meal®</a></li>
+            <li><a href="#">Beverages</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3>McDonald's Rewards</h3>
+          <ul>
+            <li><a href="#">About the Program</a></li>
+            <li><a href="#">Download the App</a></li>
+            <li><a href="#">MyAccount</a></li>
+            <li><a href="#">View Points</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3>About Us</h3>
+          <ul>
+            <li><a href="#">Our History</a></li>
+            <li><a href="#">Leadership</a></li>
+            <li><a href="#">Values In Action</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3>Contact Us</h3>
+          <ul>
+            <li><a href="#">Restaurant Feedback</a></li>
+            <li><a href="#">Frequently Asked Questions</a></li>
+            <li><a href="#">Gift Card FAQs</a></li>
+          </ul>
+          
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        &copy; 2025 McDonald's (Mock Version). This is a demo website for educational purposes only. Not affiliated with McDonald's Corporation.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function showAlert() {
+      alert("This is a mock demo. Functionality not implemented.");
+    }
+    
+    // Simple mobile menu toggle
+    document.querySelector('.mobile-menu').addEventListener('click', function() {
+      const nav = document.querySelector('nav');
+      nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
